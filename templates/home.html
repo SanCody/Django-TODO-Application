@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="refresh">
+    <title>Document</title>
+    {% load static %}
+    <link rel="icon" type="image/x-icon" href="{% static 'images/favicon.ico' %}">
+    <script src="{% static 'bootstrap/js/jquery.min.js' %}"></script>
+    <script src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}">
+    <script src="{% static 'bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+
+    <script>
+        function blank() {
+            if (document.getElementById('title').value == "") {
+                document.getElementById('task').style.borderColor = "red"   
+            }
+            if (document.getElementById('task').value == "") {
+                document.getElementById('title').style.borderColor = "red"   
+            }
+        }
+        setTimeout(function () {
+            // Closing the alert
+            $('.alert').alert('close');
+        }, 5000);
+  
+    </script>
+</head>
+<style>
+</style>
+<body>
+        <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+            <a class="navbar-brand" style="color: #fff855;">TODO</a>           
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item active">
+                    <a class="nav-link"  href="{% url 'home' %}">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'tasks' %}">Tasks</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+                </li>
+            </ul>
+        </nav>
+        {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} alert-dismissible fade show" id="alertM" role="alert">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+
+        <div class="container my-5" style="width: 440px;">
+            <h2 class="text-center">Welcome to TODO list</h2>
+            <h2 class="text-center">Add a Task</h2>
+
+            <form action="#" method="POST" onsubmit="blank()">
+                {% csrf_token %}
+                <div class="from-group">
+                    <label for="task"><b>Task: </b></label>
+                    <input type="text" class="form-control" name="task" id="title">
+                </div><br>
+                <div class="from-group">
+                    <label for="desc"><b>Description: </b></label>
+                    <textarea class="form-control" rows="5" name="desc" id="task"></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block mt-4">Submit</button>
+            </form>
+        </div> 
+        <script>
+            window.setTimeout(function() {
+                $("#alertM").slideUp(500, function() {
+                    $(this).remove();
+                });
+            }, 2000);
+            </script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+</body>
+</html>
